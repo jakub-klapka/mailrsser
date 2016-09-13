@@ -1,0 +1,1 @@
+<?php return __DIR__.'/../bootstrap';
