@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Providers\ImapConnection;
+use Event;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use PhpImap\IncomingMail;
@@ -33,6 +34,17 @@ class Email extends Model
 			$this->incomingMail = $incoming_mail;
 		}
 
+	}
+
+	/**
+	 * Add events to Model boot
+	 */
+	public static function boot() {
+		parent::boot();
+		
+		static::saved( function ( $email ){
+			Event::fire( 'email.saved', $email );
+		} );
 	}
 
 	/**

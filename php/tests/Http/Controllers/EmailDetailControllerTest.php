@@ -27,4 +27,14 @@ class EmailDetailControllerTest extends TestCase
 
 	}
 
+	public function testDetailUnauthorized() {
+
+		/** @var Email $email */
+		$email = factory( Email::class )->create();
+
+		$this->visit( $this->baseUrl . "/email/{$email->id}/string" )
+			->assertResponseStatus( 401 );
+
+	}
+
 }

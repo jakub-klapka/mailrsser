@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Email;
 use App\Listeners\ClearRssCache;
+use Event;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -15,7 +16,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-
+	    'email.saved' => [
+	    	ClearRssCache::class
+		]
     ];
 
     /**
@@ -27,7 +30,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot( DispatcherContract $events )
     {
         parent::boot($events);
-
-        Email::saved( app()->make( ClearRssCache::class )->handle() );
     }
 }
